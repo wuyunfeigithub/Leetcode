@@ -1,21 +1,21 @@
 /**
- * ÌâÄ¿ÃèÊö£º
-	Design and implement a data structure for Least Recently Used (LRU) cache. It should support the following operations: get and put.
-	
-	get(key) - Get the value (will always be positive) of the key if the key exists in the cache, otherwise return -1.
-	put(key, value) - Set or insert the value if the key is not already present. When the cache reached its capacity, it should invalidate the least recently used item before inserting a new item.
-	
-	Follow up:
-	Could you do both operations in O(1) time complexity?
-	
-	½âÌâË¼Â·£º
-		Ê¹ÓÃË«¶Ë¶ÓÁĞÀ´±£´æ»º´æ£¬×î½ü¸Õ±»Ê¹ÓÃ¹ıµÄ·ÅÔÚ¶ÓÍ·£¬Ê¹ÓÃmapÀ´±£´æ¶ÓÁĞµÄÃ¿Ò»¸öÖ¸Õë
-		(1)put²Ù×÷£º
-				»º´æÖĞÒÑ¾­´æÔÚ£¬É¾³ıÖĞ¸Ã¶ÓÁĞ½Úµã£¬²åÈëµ½¶ÓÍ·£¬¸üĞÂ½ÚµãµÄvalueÖµ£¬²»¶Ômap²Ù×÷
-				Èô²»´æÔÚ£¬²åÈëµ½¶ÓÍ·£¬Èô¶ÓÁĞ³¬³¤£¬É¾³ı¶ÓÎ²½Úµã£¬ÒÆ³ıÔÚmapÖĞµÄÓ³Éä
-		(2)get²Ù×÷£º
-				ÓÃmap²éÕÒ£¬Èô´æÔÚÔò£¬ÔÚ¶ÓÁĞÖĞÔ­Î»ÖÃÉ¾³ı£¬²åÈëµ½¶ÓÍ·£¬²»¶Ômap²Ù×÷
-				·ñÔò·µ»Ø-1
+ * é¢˜ç›®æè¿°ï¼š
+    Design and implement a data structure for Least Recently Used (LRU) cache. It should support the following operations: get and put.
+    
+    get(key) - Get the value (will always be positive) of the key if the key exists in the cache, otherwise return -1.
+    put(key, value) - Set or insert the value if the key is not already present. When the cache reached its capacity, it should invalidate the least recently used item before inserting a new item.
+    
+    Follow up:
+    Could you do both operations in O(1) time complexity?
+
+    è§£é¢˜æ€è·¯ï¼š
+        ä½¿ç”¨åŒç«¯é˜Ÿåˆ—æ¥ä¿å­˜ç¼“å­˜ï¼Œæœ€è¿‘åˆšè¢«ä½¿ç”¨è¿‡çš„æ”¾åœ¨é˜Ÿå¤´ï¼Œä½¿ç”¨mapæ¥ä¿å­˜é˜Ÿåˆ—çš„æ¯ä¸€ä¸ªæŒ‡é’ˆ
+        (1)putæ“ä½œï¼š
+                ç¼“å­˜ä¸­å·²ç»å­˜åœ¨ï¼Œåˆ é™¤ä¸­è¯¥é˜Ÿåˆ—èŠ‚ç‚¹ï¼Œæ’å…¥åˆ°é˜Ÿå¤´ï¼Œæ›´æ–°èŠ‚ç‚¹çš„valueå€¼ï¼Œä¸å¯¹mapæ“ä½œ
+                è‹¥ä¸å­˜åœ¨ï¼Œæ’å…¥åˆ°é˜Ÿå¤´ï¼Œè‹¥é˜Ÿåˆ—è¶…é•¿ï¼Œåˆ é™¤é˜Ÿå°¾èŠ‚ç‚¹ï¼Œç§»é™¤åœ¨mapä¸­çš„æ˜ å°„
+        (2)getæ“ä½œï¼š
+                ç”¨mapæŸ¥æ‰¾ï¼Œè‹¥å­˜åœ¨åˆ™ï¼Œåœ¨é˜Ÿåˆ—ä¸­åŸä½ç½®åˆ é™¤ï¼Œæ’å…¥åˆ°é˜Ÿå¤´ï¼Œä¸å¯¹mapæ“ä½œ
+                å¦åˆ™è¿”å›-1
  */
 
 import java.util.HashMap;
@@ -23,25 +23,25 @@ import java.util.Map;
 
 public class LRUCache {
 
-	class Node{
-		int key;
-		int value;
-		Node pre;
-		Node next;
-		
-		public Node(int key, int value){
-			this.key = key;
-			this.value = value;
-		}
-	}
-	
-	Map<Integer, Node> map = null;
-	Node head = null;
-	Node tail = null;
-	
-	int capacity;
-	int size;
-	
+    class Node{
+        int key;
+        int value;
+        Node pre;
+        Node next;
+        
+        public Node(int key, int value){
+            this.key = key;
+            this.value = value;
+        }
+    }
+    
+    Map<Integer, Node> map = null;
+    Node head = null;
+    Node tail = null;
+    
+    int capacity;
+    int size;
+    
     public LRUCache(int capacity) {
         map = new HashMap<>();
         head = new Node(0, 0);
@@ -56,46 +56,46 @@ public class LRUCache {
         this.size = 0;
     }
     
-    public int get(int key) {    	
-    	if(map.containsKey(key)){
-    		Node p = map.get(key);
-    		deleteNode(p);
-    		addNodeToHead(p);
-    		return p.value;
-    	}
+    public int get(int key) {       
+        if(map.containsKey(key)){
+            Node p = map.get(key);
+            deleteNode(p);
+            addNodeToHead(p);
+            return p.value;
+        }
         return -1;
     }
     
     public void put(int key, int value) {
-    	if(map.containsKey(key)){
-    		Node p = map.get(key);
-    		p.value = value;
-    		deleteNode(p);
-    		addNodeToHead(p);
-    	}
-    	else{
-        	Node p = new Node(key, value);
+        if(map.containsKey(key)){
+            Node p = map.get(key);
+            p.value = value;
+            deleteNode(p);
+            addNodeToHead(p);
+        }
+        else{
+            Node p = new Node(key, value);
             addNodeToHead(p);
             map.put(key, p);
             size++;
             if(size > capacity){
-            	map.remove(tail.pre.key);
-            	deleteNode(tail.pre);
-            	size--;
+                map.remove(tail.pre.key);
+                deleteNode(tail.pre);
+                size--;
             }
-    	}
+        }
     }
     
     private void addNodeToHead(Node p){
-    	p.next = head.next;
-    	head.next.pre = p;
-    	head.next = p;
-    	p.pre = head;
+        p.next = head.next;
+        head.next.pre = p;
+        head.next = p;
+        p.pre = head;
     }
-	
+    
     private void deleteNode(Node p){
-    	p.next.pre = p.pre;
-    	p.pre.next = p.next;
+        p.next.pre = p.pre;
+        p.pre.next = p.next;
     }
     
 }
